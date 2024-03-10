@@ -25,7 +25,30 @@
                 <Button x:Name="Reload_Page" Content="{materialDesign:PackIcon Kind=Reload}" Click="ReloadButton_Click" />
                 <Separator/>
                 <ListBox SelectedItem="1" SelectedIndex="3">
-                    
+                    <ListBoxItem x:Name="gpt" Selected="AI_Selected">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="30" Source="/Images/gpt.ico"/>
+                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="GPT"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem x:Name="claude" Selected="AI_Selected">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="30" Source="/Images/claude.ico"/>
+                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="Claude AI"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem x:Name="gemini" Selected="AI_Selected">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="30" Source="/Images/gemini.ico"/>
+                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="Gemini"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem x:Name="ip" Selected="AI_Selected">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Ip" VerticalAlignment="Center" Width="30" Height="30"/>
+                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="IP"/>
+                        </StackPanel>
+                    </ListBoxItem>
                 </ListBox>
             </ToolBar>
         </ToolBarTray>

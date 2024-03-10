@@ -1,20 +1,11 @@
 ﻿using CefSharp;
 using CefSharp.Wpf;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using WpfApp2;
+
 
 namespace AI_Client
 {
@@ -22,6 +13,9 @@ namespace AI_Client
     public partial class MainWindow : Window
     {
         private ChromiumWebBrowser chromeBrowser;
+
+
+        readonly Urls urls = new Urls();
 
         public MainWindow()
         {
@@ -44,10 +38,10 @@ namespace AI_Client
                 Cef.Initialize(settings);
 
                 chromeBrowser = new ChromiumWebBrowser();
-                browsergrid.Children.Add(chromeBrowser); 
+                browsergrid.Children.Add(chromeBrowser);
                 Canvas.SetLeft(chromeBrowser, 0);
                 Canvas.SetTop(chromeBrowser, 0);
-                chromeBrowser.Address = "about:blank"; 
+                chromeBrowser.Address = "about:blank";
                 chromeBrowser.FrameLoadEnd += ChromeBrowser_FrameLoadEnd;
             }
             catch (Exception ex)
@@ -65,6 +59,41 @@ namespace AI_Client
         private void ReloadButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void LoadUrl(string url)
+        {
+
+            if (chromeBrowser != null)
+            {
+                ProggresBar.Visibility = Visibility.Visible;
+                chromeBrowser.Address = url;
+            }
+
+        }
+        private void AI_Selected(object sender, RoutedEventArgs e)
+        {
+
+            ListBoxItem selectedItem = (ListBoxItem)sender;
+            string caseValue = selectedItem.Name.ToString();
+
+            switch (caseValue)
+            {
+                case "gpt":
+                    LoadUrl(urls._gptUrl);
+                    break;
+                case "claude":
+                    LoadUrl(urls._claudeUrl);
+                    break;
+                case "gemini":
+                    LoadUrl(urls._geminiUrl);
+                    break;
+                case "ip":
+                    LoadUrl(urls._ipUrl);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
