@@ -1,6 +1,9 @@
-﻿using CefSharp;
+﻿using AI_Client.Models;
+using CefSharp;
+using CefSharp.Handler;
 using CefSharp.Wpf;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +16,8 @@ namespace AI_Client
     public partial class MainWindow : Window
     {
         private ChromiumWebBrowser chromeBrowser;
+        private ProxySettings proxySettings;
+
 
 
         readonly Urls urls = new Urls();
@@ -94,6 +99,44 @@ namespace AI_Client
                 default:
                     break;
             }
+        }
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            Cef.Shutdown();
+            foreach (Window w in App.Current.Windows)
+                w.Close();
+
+        }
+        private void ProxyConnect()
+        {
+            if (proxySettings != null)
+            {
+                CurentProxyName.Text = proxySettings.ProxyName.ToString();
+                Cef.UIThreadTaskFactory.StartNew(delegate
+                {
+                    chromeBrowser.RequestHandler = new MyRequestHandler(proxySettings);
+
+                    string ip = proxySettings.ProxyIP;
+                    string port = proxySettings.ProxyPort;
+                    var rc = chromeBrowser.GetBrowser().GetHost().RequestContext;
+                    var dict = new Dictionary<string, object>
+                {
+                    { "mode", "fixed_servers" },
+                    { "server", "" + ip + ":" + port + "" }
+                };
+                    bool success = rc.SetPreference("proxy", dict, out string error);
+                });
+                chromeBrowser.Reload();
+            }
+            else
+            {
+                MessageBox.Show("No proxy settings loaded.");
+            }
+        }
+        private void Testproxy_Click(object sender, RoutedEventArgs e)
+        {
+            ProxyConnect();
         }
     }
 }
