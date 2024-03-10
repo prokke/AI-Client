@@ -14,7 +14,25 @@
         FontFamily="{materialDesign:MaterialDesignFont}"
         Style="{DynamicResource MaterialDesignWindow}"
         Title="AI Client" Height="800" Width="1600" MinWidth="1100" MinHeight="600">
-    <Grid>
+    <Grid Background="LightSlateGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
+        <ToolBarTray IsLocked="True">
+            <ToolBar Height="60" Style="{DynamicResource MaterialDesignToolBar}">
+                <Button x:Name="Reload_Page" Content="{materialDesign:PackIcon Kind=Reload}" Click="ReloadButton_Click" />
+                <Separator/>
+                <ListBox SelectedItem="1" SelectedIndex="3">
+                    
+                </ListBox>
+            </ToolBar>
+        </ToolBarTray>
+
+
+
+        <ProgressBar x:Name="ProggresBar" Visibility="Visible" HorizontalAlignment="Right" Margin="0,0,20,0" IsIndeterminate="True" Style="{StaticResource MaterialDesignCircularProgressBar}" Value="50" />
+        <Grid Grid.Row="1" x:Name="browsergrid" Background="#54626F" />
     </Grid>
 </Window>
