@@ -28,7 +28,7 @@ namespace AI_Client
             InitializeComponent();
             InitializeChromium();
             addNewProxy = new AddNewProxy(this);
-
+            LoadUrl(urls._ipUrl);
         }
 
         private void InitializeChromium()

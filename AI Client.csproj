@@ -140,6 +140,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Сlasses\FileIOService.cs" />
     <Compile Include="Сlasses\ProxySettings.cs" />
     <Compile Include="Сlasses\Urls.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
