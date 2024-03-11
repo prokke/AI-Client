@@ -17,10 +17,9 @@ namespace AI_Client
         private ChromiumWebBrowser chromeBrowser;
         private ProxySettings proxySettings;
         private AddNewProxy addNewProxy;
+        private FileIOService fileIOService;
 
-
-
-
+        private readonly string PATH = $"{Environment.CurrentDirectory}\\ProxyList.json";
         readonly Urls urls = new Urls();
 
         public MainWindow()
@@ -28,7 +27,52 @@ namespace AI_Client
             InitializeComponent();
             InitializeChromium();
             addNewProxy = new AddNewProxy(this);
+            proxySettings = LoadFile();
             LoadUrl(urls._ipUrl);
+        }
+
+        private ProxySettings LoadFile()
+        {
+            fileIOService = new FileIOService(PATH);
+            var proxies = fileIOService.LoadProxyList();
+            if (proxies != null)
+            {
+                try
+                {
+                    foreach (var proxy in proxies)
+                    {
+                        if (proxy.LastUsingProxy == true)
+                        {
+                            return proxy;
+                        }
+                    }
+                    return null;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при чтении файла конфигурации" + ex.Message);
+                    return null;
+                }
+            }
+            return null;
+        }
+
+        public void LoadSettingsByName(string name)
+        {
+            fileIOService = new FileIOService(PATH);
+            var proxies = fileIOService.LoadProxyList();
+            if (proxies != null)
+            {
+                foreach (var proxy in proxies)
+                {
+                    if (proxy.ProxyName == name)
+                    {
+                        proxySettings = proxy;
+                        ProxyConnect();
+                        break;
+                    }
+                }
+            }
         }
 
         private void InitializeChromium()
@@ -66,7 +110,7 @@ namespace AI_Client
 
         private void ReloadButton_Click(object sender, RoutedEventArgs e)
         {
-
+            chromeBrowser?.Reload();
         }
 
         private void LoadUrl(string url)
@@ -130,7 +174,7 @@ namespace AI_Client
                 };
                     bool success = rc.SetPreference("proxy", dict, out string error);
                 });
-                chromeBrowser.Reload();
+                chromeBrowser?.Reload();
             }
             else
             {
@@ -145,7 +189,7 @@ namespace AI_Client
         {
             if (!addNewProxy.IsLoaded)
             {
-                addNewProxy = new AddNewProxy(this); // Assuming AddNewProxy is the name of your window class
+                addNewProxy = new AddNewProxy(this);
             }
 
             addNewProxy.Show();

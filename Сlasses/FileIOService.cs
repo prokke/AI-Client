@@ -23,7 +23,7 @@ namespace WpfApp2
             if (!fileExists)
             {
                 File.CreateText(PATH).Dispose();
-                return new List<ProxySettings>(); // Return empty list if no file exists
+                return new List<ProxySettings>(); 
             }
 
             using (var reader = File.OpenText(PATH))
@@ -35,7 +35,6 @@ namespace WpfApp2
                 }
                 catch (JsonException ex)
                 {
-                    // Handle potential JSON parsing errors gracefully (e.g., log the error)
                     Console.WriteLine($"Error parsing JSON: {ex.Message}");
                     return new List<ProxySettings>();
                 }
@@ -57,13 +56,28 @@ namespace WpfApp2
             var proxyToDelete = proxies.FirstOrDefault(p => p.ProxyName == proxyName);
             if (proxyToDelete == null)
             {
-                // Handle case where proxy not found (e.g., message box)
                 MessageBox.Show("Proxy not found for deletion.");
                 return;
             }
 
             proxies.Remove(proxyToDelete);
             SaveProxyList(proxies);
+        }
+        public void SetLastUsingStatus(string proxyName)
+        {
+            var proxySettings = LoadProxyList();
+            foreach (var proxySetting in proxySettings)
+            {
+                if(proxySetting.ProxyName != proxyName)
+                { 
+                    proxySetting.LastUsingProxy = false;
+                }
+                else
+                {
+                    proxySetting.LastUsingProxy = true;
+                }
+            }
+            SaveProxyList(proxySettings);
         }
 
     }

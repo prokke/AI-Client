@@ -39,18 +39,8 @@
         <Button Style="{DynamicResource MaterialDesignPaperButton}" Grid.Row="6" x:Name="Add_proxy" Click="Add_proxy_Click" Content="Add" HorizontalAlignment="Right" Margin="0,0,20,0" />
         <ScrollViewer Grid.Row="1" Grid.RowSpan="7" Grid.Column="1" VerticalScrollBarVisibility="Hidden" Grid.ColumnSpan="2">
             <StackPanel x:Name="StackPanel_ProxyList" HorizontalAlignment="Center" Width="250">
-                <materialDesign:Chip Style="{DynamicResource MyChip}" Width="200" HorizontalAlignment="Center" IsDeletable="True" Content="Apple" />
-                <materialDesign:Chip Style="{DynamicResource MyChip}" Width="200" HorizontalAlignment="Center" IsDeletable="True" Content="Pear" />
-                <materialDesign:Chip Style="{DynamicResource MyChip}" Width="200" HorizontalAlignment="Center" IsDeletable="True" Content="Banana" />
-                <materialDesign:Chip Style="{DynamicResource MyChip}" Width="200" HorizontalAlignment="Center" IsDeletable="True" Content="Orange"/>
-                <materialDesign:Chip Style="{DynamicResource MyChip}" Width="200" HorizontalAlignment="Center" IsDeletable="True" Content="Apple" />
-                <materialDesign:Chip Style="{DynamicResource MyChip}" Width="200" HorizontalAlignment="Center" IsDeletable="True" Content="Pear" />
-                <materialDesign:Chip Style="{DynamicResource MyChip}" Width="200" HorizontalAlignment="Center" IsDeletable="True" Content="Banana" />
-                <materialDesign:Chip Style="{DynamicResource MyChip}" Width="200" HorizontalAlignment="Center" IsDeletable="True" Content="Orange"/>
-                <materialDesign:Chip Style="{DynamicResource MyChip}" Width="200" HorizontalAlignment="Center" IsDeletable="True" Content="Banana" />
-                <materialDesign:Chip Style="{DynamicResource MyChip}" Width="200" HorizontalAlignment="Center" IsDeletable="True" Content="Orange"/>
-            </StackPanel>
 
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </Window>
