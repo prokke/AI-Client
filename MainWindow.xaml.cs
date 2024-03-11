@@ -1,6 +1,5 @@
 ﻿using AI_Client.Models;
 using CefSharp;
-using CefSharp.Handler;
 using CefSharp.Wpf;
 using System;
 using System.Collections.Generic;
@@ -17,6 +16,8 @@ namespace AI_Client
     {
         private ChromiumWebBrowser chromeBrowser;
         private ProxySettings proxySettings;
+        private AddNewProxy addNewProxy;
+
 
 
 
@@ -26,6 +27,8 @@ namespace AI_Client
         {
             InitializeComponent();
             InitializeChromium();
+            addNewProxy = new AddNewProxy(this);
+
         }
 
         private void InitializeChromium()
@@ -137,6 +140,15 @@ namespace AI_Client
         private void Testproxy_Click(object sender, RoutedEventArgs e)
         {
             ProxyConnect();
+        }
+        private void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            if (!addNewProxy.IsLoaded)
+            {
+                addNewProxy = new AddNewProxy(this); // Assuming AddNewProxy is the name of your window class
+            }
+
+            addNewProxy.Show();
         }
     }
 }

@@ -17,6 +17,131 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.RadioButton.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ScrollViewer.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="MyChip" TargetType="{x:Type materialDesign:Chip}">
+                <Setter Property="Background" Value="{DynamicResource MaterialDesign.Brush.ForegroundLight}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesign.Brush.Chip.OutlineBorder}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Foreground" Value="{DynamicResource MaterialDesign.Brush.Foreground}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type materialDesign:Chip}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup Name="CommonStates">
+                                        <VisualStateGroup.Transitions>
+                                            <VisualTransition GeneratedDuration="0:0:0.3" To="Normal">
+                                                <VisualTransition.GeneratedEasingFunction>
+                                                    <CircleEase EasingMode="EaseOut" />
+                                                </VisualTransition.GeneratedEasingFunction>
+                                            </VisualTransition>
+                                        </VisualStateGroup.Transitions>
+                                        <VisualState Name="Normal" />
+                                        <VisualState Name="MouseOver">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="MouseOverBorder"
+                         Storyboard.TargetProperty="Opacity"
+                         To="0.1"
+                         Duration="0" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState Name="Disabled" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Border x:Name="Border"
+        Grid.ColumnSpan="3"
+        BorderBrush="{TemplateBinding BorderBrush}"
+        BorderThickness="{TemplateBinding BorderThickness}"
+        CornerRadius="0" />
+                                <Border x:Name="MouseOverBorder"
+        Grid.Column="0"
+        Grid.ColumnSpan="3"
+        Background="{TemplateBinding Foreground, Converter={StaticResource BrushRoundConverter}}"
+        BorderBrush="{TemplateBinding BorderBrush}"
+        BorderThickness="{TemplateBinding BorderThickness}"
+        CornerRadius="0"
+        Opacity="0"/>
+                                <ContentControl x:Name="IconControl"
+                Width="32"
+                Height="32"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Background="{TemplateBinding IconBackground}"
+                Content="{TemplateBinding Icon}"
+                FontSize="17"
+                FontWeight="Regular"
+                Foreground="{TemplateBinding IconForeground}"
+                IsTabStop="False"
+                Visibility="{TemplateBinding Icon, Converter={StaticResource NullableToVisibilityConverter}}">
+                                    <ContentControl.Clip>
+                                        <EllipseGeometry Center="16,16"
+                     RadiusX="16"
+                     RadiusY="16" />
+                                    </ContentControl.Clip>
+                                    <ContentControl.Template>
+                                        <ControlTemplate TargetType="ContentControl">
+                                            <Border Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                          Content="{TemplateBinding Content}" />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </ContentControl.Template>
+                                </ContentControl>
+                                <ContentControl x:Name="TextBlock"
+                Grid.Column="1"
+                Margin="8,0,12,0"
+                VerticalAlignment="Center"
+                Content="{TemplateBinding Content}"
+                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                ContentTemplate="{TemplateBinding ContentTemplate}"
+                ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                IsTabStop="False" />
+                                <Button x:Name="PART_DeleteButton"
+        Grid.Column="2"
+        Width="16"
+        Height="16"
+        Margin="-6,0,8,0"
+        VerticalAlignment="Center"
+        ToolTip="{TemplateBinding DeleteToolTip}"
+        Visibility="{TemplateBinding IsDeletable, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <Grid>
+                                                <Ellipse x:Name="Bg"
+                 Fill="#FFA6A6A6"
+                 Stroke="#FF6662"
+                 StrokeThickness="0" />
+                                                <materialDesign:PackIcon Width="12"
+                      Height="12"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Kind="Close" />
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Bg" Property="StrokeThickness" Value="1" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger SourceName="IconControl" Property="Visibility" Value="Collapsed">
+                                    <Setter TargetName="TextBlock" Property="Margin" Value="12,0,12,0" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
