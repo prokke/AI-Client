@@ -91,15 +91,22 @@ namespace AI_Client
 
                 chromeBrowser = new ChromiumWebBrowser();
                 browsergrid.Children.Add(chromeBrowser);
-                Canvas.SetLeft(chromeBrowser, 0);
-                Canvas.SetTop(chromeBrowser, 0);
                 chromeBrowser.Address = "about:blank";
-                chromeBrowser.FrameLoadEnd += ChromeBrowser_FrameLoadEnd;
+                chromeBrowser.IsBrowserInitializedChanged += ChromeBrowser_IsBrowserInitializedChanged;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Ошибка инициализации Chromium: {ex.Message}");
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ChromeBrowser_IsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (chromeBrowser.IsBrowserInitialized)
+            {
+                chromeBrowser.FrameLoadEnd += ChromeBrowser_FrameLoadEnd;
+                ProxyConnect();
             }
         }
 
@@ -168,10 +175,10 @@ namespace AI_Client
                     string port = proxySettings.ProxyPort;
                     var rc = chromeBrowser.GetBrowser().GetHost().RequestContext;
                     var dict = new Dictionary<string, object>
-                {
-                    { "mode", "fixed_servers" },
-                    { "server", "" + ip + ":" + port + "" }
-                };
+                    {
+                        { "mode", "fixed_servers" },
+                        { "server", "" + ip + ":" + port + "" }
+                    };
                     bool success = rc.SetPreference("proxy", dict, out string error);
                 });
                 chromeBrowser?.Reload();
