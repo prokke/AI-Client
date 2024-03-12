@@ -197,9 +197,57 @@ namespace AI_Client
             if (!addNewProxy.IsLoaded)
             {
                 addNewProxy = new AddNewProxy(this);
+                addNewProxy.Show();
+            }
+            else if(addNewProxy.IsLoaded)
+            {
+                addNewProxy.Close();
             }
 
-            addNewProxy.Show();
+
+        }
+
+
+        private void TittleBar_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void MaximaizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+            {
+                WindowState = WindowState.Normal;
+                MaxIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.WindowMaximize;
+            }
+
+            else
+            {
+                WindowState = WindowState.Maximized;
+                MaxIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.WindowRestore;
+                
+            }
+        }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+        public void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.BorderThickness = new System.Windows.Thickness(8);
+            }
+            else
+            {
+                this.BorderThickness = new System.Windows.Thickness(0);
+            }
         }
     }
 }

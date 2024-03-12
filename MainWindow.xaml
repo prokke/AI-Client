@@ -6,21 +6,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AI_Client"
         mc:Ignorable="d"
-        
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        Background="{DynamicResource MaterialDesignPaper}"
+        Background="{DynamicResource MaterialDesignPaper}" 
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
+        SizeChanged="Window_SizeChanged"
         FontFamily="{materialDesign:MaterialDesignFont}"
         Style="{DynamicResource MaterialDesignWindow}"
-        Title="AI Client" Height="800" Width="1600" MinWidth="1100" MinHeight="600">
+        Title="AI Client" Height="800" Width="1600" MinWidth="1100" MinHeight="600" ResizeMode="CanResize" WindowStyle="SingleBorderWindow">
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="1" CornerRadius="10" CaptionHeight="0" />
+    </WindowChrome.WindowChrome>
+
     <Grid Background="LightSlateGray">
+
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <ToolBarTray IsLocked="True">
+        <Grid Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Top" x:Name="TittleBar" Panel.ZIndex="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Style="{DynamicResource MaterialDesignFlatDarkButton}" materialDesign:ButtonAssist.CornerRadius="0,0,0,5" Height="25" x:Name="MinimizeButton" Click="MinimizeButton_Click">
+                    <materialDesign:PackIcon Kind="WindowMinimize" />
+                </Button>
+                <Button Style="{DynamicResource MaterialDesignFlatDarkButton}" materialDesign:ButtonAssist.CornerRadius="0" x:Name="MaximaizeButton" Height="25" Click="MaximaizeButton_Click">
+                    <materialDesign:PackIcon x:Name="MaxIcon" Kind="WindowMaximize" />
+                </Button>
+                <Button Style="{DynamicResource MaterialDesignFlatDarkButton}" materialDesign:ButtonAssist.CornerRadius="0" x:Name="CloseButton" Height="25" Click="CloseButton_Click">
+                    <materialDesign:PackIcon Kind="WindowClose" />
+                </Button>
+            </StackPanel>
+        </Grid>
+        <ToolBarTray IsLocked="True" Grid.Row="0" MouseLeftButtonDown="TittleBar_MouseLeftButtonDown">
             <ToolBar Height="60" Style="{DynamicResource MaterialDesignToolBar}">
                 <Button x:Name="Reload_Page" Content="{materialDesign:PackIcon Kind=Reload}" Click="ReloadButton_Click" />
                 <Separator/>
@@ -49,6 +67,7 @@
                             <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="IP"/>
                         </StackPanel>
                     </ListBoxItem>
+
                 </ListBox>
                 <Separator/>
                 <Button x:Name="testproxy" Click="Testproxy_Click" Content="Connect" />
@@ -62,7 +81,7 @@
 
 
 
-        <ProgressBar x:Name="ProggresBar" Visibility="Visible" HorizontalAlignment="Right" Margin="0,0,20,0" IsIndeterminate="True" Style="{StaticResource MaterialDesignCircularProgressBar}" Value="50" />
+        <ProgressBar Grid.Row="0" x:Name="ProggresBar" Visibility="Visible" HorizontalAlignment="Right" Margin="0,25,20,0" IsIndeterminate="True" Style="{StaticResource MaterialDesignCircularProgressBar}" Value="50" />
         <Grid Grid.Row="1" x:Name="browsergrid" Background="#54626F" />
     </Grid>
 </Window>

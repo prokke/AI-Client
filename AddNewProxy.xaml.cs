@@ -10,8 +10,8 @@ namespace AI_Client
 
     public partial class AddNewProxy : Window
     {
-        private MainWindow mainWindow;
-        private FileIOService fileIOService;
+        private readonly MainWindow mainWindow;
+        private readonly FileIOService fileIOService;
 
         private readonly string PATH = $"{Environment.CurrentDirectory}\\ProxyList.json";
 
@@ -107,6 +107,16 @@ namespace AI_Client
             {
                 MessageBox.Show("Error adding proxy: " + ex.Message);
             }
+        }
+
+        private void CloseSettingButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void SettingsTittleBar_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DragMove();
         }
     }
 }

@@ -14,7 +14,13 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
+        WindowStyle="SingleBorderWindow"
+        BorderThickness="1"
+        BorderBrush="LightSlateGray"
         Title="AddNewProxy" Height="400" Width="600">
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="1" CornerRadius="10" CaptionHeight="0"/>
+    </WindowChrome.WindowChrome>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -31,6 +37,13 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        <Grid Background="Transparent" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" x:Name="SettingsTittleBar" MouseLeftButtonDown="SettingsTittleBar_MouseLeftButtonDown" Panel.ZIndex="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Style="{DynamicResource MaterialDesignFlatDarkButton}" materialDesign:ButtonAssist.CornerRadius="0,0,0,5" x:Name="CloseSettingButton" Height="25" Click="CloseSettingButton_Click">
+                    <materialDesign:PackIcon Kind="WindowClose" />
+                </Button>
+            </StackPanel>
+        </Grid>
         <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" x:Name="IProxyName" Width="250" materialDesign:HintAssist.Hint="Enter config name" Grid.Row="1"/>
         <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" x:Name="IProxyIP" Width="250" materialDesign:HintAssist.Hint="Enter IP" Grid.Row="2" />
         <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" x:Name="IProxyPort" Width="250" materialDesign:HintAssist.Hint="Enter Port" Grid.Row="3"/>
