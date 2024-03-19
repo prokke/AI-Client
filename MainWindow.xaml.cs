@@ -188,16 +188,19 @@ namespace AI_Client
                 MessageBox.Show("No proxy settings loaded.");
             }
         }
-        private void Testproxy_Click(object sender, RoutedEventArgs e)
-        {
-            ProxyConnect();
-        }
+        //private void Testproxy_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ProxyConnect();
+        //}
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
             if (!addNewProxy.IsLoaded)
             {
-                addNewProxy = new AddNewProxy(this);
-                addNewProxy.Show();
+                addNewProxy = new AddNewProxy(this)
+                {
+                    Owner = this
+                };
+                addNewProxy.ShowDialog();
             }
             else if(addNewProxy.IsLoaded)
             {

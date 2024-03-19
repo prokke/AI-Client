@@ -12,7 +12,7 @@
         FontFamily="{materialDesign:MaterialDesignFont}"
         Style="{DynamicResource MaterialDesignWindow}"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
         WindowStyle="SingleBorderWindow"
         BorderThickness="1"
