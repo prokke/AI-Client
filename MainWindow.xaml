@@ -72,7 +72,7 @@
                 <Separator/>
                 <!--<Button x:Name="testproxy" Click="Testproxy_Click" Content="Connect" />-->
                 <Label Content="Proxy name:" VerticalAlignment="Center"/>
-                <TextBlock x:Name="CurentProxyName" VerticalAlignment="Center" Text="proxy123"/>
+                <TextBlock x:Name="CurentProxyName" VerticalAlignment="Center" Text="None"/>
                 <Separator/>
                 <Button x:Name="settings" Click="Settings_Click" Content="Settings"/>
                 <Separator/>
