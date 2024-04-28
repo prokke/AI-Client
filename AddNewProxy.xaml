@@ -36,6 +36,8 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Background="Transparent" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" x:Name="SettingsTittleBar" MouseLeftButtonDown="SettingsTittleBar_MouseLeftButtonDown" Panel.ZIndex="1">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -49,9 +51,18 @@
         <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" x:Name="IProxyPort" Width="250" materialDesign:HintAssist.Hint="Enter Port" Grid.Row="3"/>
         <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" x:Name="IProxyUsername" Width="250" materialDesign:HintAssist.Hint="Enter Username" Grid.Row="4"/>
         <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" x:Name="IProxyPassword"  Width="250" materialDesign:HintAssist.Hint="Enter Password" Grid.Row="5"/>
-        <Button Style="{DynamicResource MaterialDesignPaperButton}" Grid.Row="6" x:Name="Add_proxy" Click="Add_proxy_Click" Content="Add" HorizontalAlignment="Right" Margin="0,0,20,0" />
-        <ScrollViewer Grid.Row="1" Grid.RowSpan="7" Grid.Column="1" VerticalScrollBarVisibility="Hidden" Grid.ColumnSpan="2">
+        <Button Style="{DynamicResource MaterialDesignPaperButton}" Grid.Row="6" x:Name="Add_proxy" Click="Add_proxy_Click" Content="Add proxy" HorizontalAlignment="Right" Margin="0,0,20,0" />
+        <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" x:Name="IUrl"  Width="250" materialDesign:HintAssist.Hint="Enter Url" Grid.Row="8"/>
+        <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" x:Name="IUrlName"  Width="250" materialDesign:HintAssist.Hint="Enter Url Name" Grid.Row="9"/>
+        
+        <Button Style="{DynamicResource MaterialDesignPaperButton}" Grid.Row="10" x:Name="Add_url" Click="Add_url_Click" Content="Add url" HorizontalAlignment="Right" Margin="0,0,20,0" />
+        <ScrollViewer Grid.Row="1" Grid.RowSpan="5" Grid.Column="1" VerticalScrollBarVisibility="Hidden" Grid.ColumnSpan="2">
             <StackPanel x:Name="StackPanel_ProxyList" HorizontalAlignment="Center" Width="250">
+
+            </StackPanel>
+        </ScrollViewer>
+        <ScrollViewer Grid.Row="7" Grid.RowSpan="3" Grid.Column="1" VerticalScrollBarVisibility="Hidden" Grid.ColumnSpan="2">
+            <StackPanel x:Name="StackPanel_UrlList" HorizontalAlignment="Center" Width="250">
 
             </StackPanel>
         </ScrollViewer>

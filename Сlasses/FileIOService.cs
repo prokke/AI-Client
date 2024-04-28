@@ -11,10 +11,12 @@ namespace WpfApp2
     class FileIOService
     {
         private readonly string PATH;
+        private readonly string PATHURLS;
 
-        public FileIOService(string path)
+        public FileIOService(string path, string pathurls)
         {
             PATH = path;
+            PATHURLS = pathurls;
         }
 
         public List<ProxySettings> LoadProxyList()
@@ -79,6 +81,53 @@ namespace WpfApp2
             }
             SaveProxyList(proxySettings);
         }
+        //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        public List<Urls> LoadUrlList()
+        {
+            var fileExists = File.Exists(PATHURLS);
+            if (!fileExists)
+            {
+                File.CreateText(PATHURLS).Dispose();
+                return new List<Urls>();
+            }
+
+            using (var reader = File.OpenText(PATHURLS))
+            {
+                var fileText = reader.ReadToEnd();
+                try
+                {
+                    return JsonConvert.DeserializeObject<List<Urls>>(fileText);
+                }
+                catch (JsonException ex)
+                {
+                    Console.WriteLine($"Error parsing JSON: {ex.Message}");
+                    return new List<Urls>();
+                }
+            }
+        }
+        public void SaveUrlList(List<Urls> urlList)
+        {
+            using (StreamWriter writer = File.CreateText(PATHURLS))
+            {
+                string output = JsonConvert.SerializeObject(urlList, Formatting.Indented);
+                writer.WriteLine(output);
+            }
+        }
+
+        public void DeleteUrl(string UrlName)
+        {
+            var urls = LoadUrlList();
+            var UrlToDelete = urls.FirstOrDefault(p => p.NewUrlName == UrlName);
+            if (UrlToDelete == null)
+            {
+                MessageBox.Show("Url not found for deletion.");
+                return;
+            }
+
+            urls.Remove(UrlToDelete);
+            SaveUrlList(urls);
+        }
+
 
     }
 }

@@ -2,8 +2,10 @@
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
+using System.Security.Policy;
 using System.Windows;
 using WpfApp2;
+
 
 namespace AI_Client
 {
@@ -14,12 +16,15 @@ namespace AI_Client
         private readonly FileIOService fileIOService;
 
         private readonly string PATH = $"{Environment.CurrentDirectory}\\ProxyList.json";
+        private readonly string PATHURLS = $"{Environment.CurrentDirectory}\\Urls.json";
+
 
         public AddNewProxy(MainWindow mainWindow)
         {
             InitializeComponent();
-            fileIOService = new FileIOService(PATH);
+            fileIOService = new FileIOService(PATH, PATHURLS);
             LoadProxyListElements();
+            LoadUrlListChips();
             this.mainWindow = mainWindow;
         }
 
@@ -58,6 +63,51 @@ namespace AI_Client
                 }
             }
         }
+
+        private void LoadUrlListChips()
+        {
+            var urls = fileIOService.LoadUrlList();
+            if (urls != null)
+            {
+                StackPanel_UrlList.Children.Clear();
+
+                try
+                {
+
+                    foreach (var url in urls)
+                    {
+                        Chip chip = new Chip
+                        {
+                            Width = 200,
+                            HorizontalAlignment = HorizontalAlignment.Center,
+                            IsDeletable = true,
+                            Style = (Style)FindResource("MyChip"),
+                            Content = url.NewUrlName.ToString(),
+                        };
+
+                        chip.DeleteClick += HandleChipDeleteUrl;
+                        StackPanel_UrlList.Children.Add(chip);
+
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+        private void HandleChipDeleteUrl(object sender, RoutedEventArgs e)
+        {
+            Chip chipToDelete = (Chip)sender;
+
+            // Logic to remove the chip from the StackPanel
+            StackPanel_UrlList.Children.Remove(chipToDelete);
+            fileIOService.DeleteUrl(chipToDelete.Content.ToString());
+            LoadUrlListChips();
+            mainWindow.LoadUrlListElements();
+        }
         private void HandleChipClick(object sender, RoutedEventArgs e)
         {
             Chip chipToClick = (Chip)sender;
@@ -73,6 +123,39 @@ namespace AI_Client
             StackPanel_ProxyList.Children.Remove(chipToDelete);
             fileIOService.DeleteProxy(chipToDelete.Content.ToString());
         }
+        private void Add_url_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var urlList = new Urls
+                {
+                    NewUrl = IUrl.Text,
+                    NewUrlName = IUrlName.Text
+                };
+                var urls = fileIOService.LoadUrlList();
+                if (urls != null)
+                {
+                    urls.Add(urlList);
+                    fileIOService.SaveUrlList(urls);
+                }
+                else
+                {
+                    var newUrlList = new List<Urls>
+                    {
+                        urlList
+                    };
+                    fileIOService.SaveUrlList(newUrlList);
+                }
+                //LoadUrlListElements();
+                mainWindow.LoadUrlListElements();
+                LoadUrlListChips();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error adding Url: " + ex.Message);
+            }
+        }
+        
         private void Add_proxy_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -118,5 +201,7 @@ namespace AI_Client
         {
             DragMove();
         }
+
+
     }
 }

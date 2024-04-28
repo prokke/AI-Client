@@ -17,6 +17,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.RadioButton.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ScrollViewer.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
             <Style x:Key="MyChip" TargetType="{x:Type materialDesign:Chip}">
                 <Setter Property="Background" Value="{DynamicResource MaterialDesign.Brush.ForegroundLight}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesign.Brush.Chip.OutlineBorder}" />
