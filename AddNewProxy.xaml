@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AI_Client"
+        xmlns:models="clr-namespace:AI_Client.Models"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
@@ -46,9 +47,40 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" x:Name="IProxyName" Width="250" materialDesign:HintAssist.Hint="Enter config name" Grid.Row="1"/>
-        <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" x:Name="IProxyIP" Width="250" materialDesign:HintAssist.Hint="Enter IP" Grid.Row="2" />
-        <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" x:Name="IProxyPort" Width="250" materialDesign:HintAssist.Hint="Enter Port" Grid.Row="3"/>
+        <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" x:Name="IProxyName" Width="250" materialDesign:ValidationAssist.HorizontalAlignment="Right" materialDesign:ValidationAssist.OnlyShowOnFocus="True" materialDesign:HintAssist.Hint="Enter config name" Grid.Row="1">
+            <TextBox.Text>
+                <Binding
+               Path="ConfigName"
+               UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <models:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+
+        <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" x:Name="IProxyIP" Width="250" materialDesign:ValidationAssist.HorizontalAlignment="Right" materialDesign:ValidationAssist.OnlyShowOnFocus="True" materialDesign:HintAssist.Hint="Enter IP" Grid.Row="2" >
+            <TextBox.Text>
+                <Binding
+               Path="ConfigIP"
+               UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <models:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" x:Name="IProxyPort" Width="250" materialDesign:ValidationAssist.HorizontalAlignment="Right" materialDesign:ValidationAssist.OnlyShowOnFocus="True" materialDesign:HintAssist.Hint="Enter Port" Grid.Row="3">
+            <TextBox.Text>
+                <Binding
+               Path="ConfigPort"
+               UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <models:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
         <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" x:Name="IProxyUsername" Width="250" materialDesign:HintAssist.Hint="Enter Username" Grid.Row="4"/>
         <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Center" x:Name="IProxyPassword"  Width="250" materialDesign:HintAssist.Hint="Enter Password" Grid.Row="5"/>
         <Button Style="{DynamicResource MaterialDesignPaperButton}" Grid.Row="6" x:Name="Add_proxy" Click="Add_proxy_Click" Content="Add proxy" HorizontalAlignment="Right" Margin="0,0,20,0" />

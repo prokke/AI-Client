@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Security.Policy;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using WpfApp2;
 
 
@@ -18,10 +20,13 @@ namespace AI_Client
         private readonly string PATH = $"{Environment.CurrentDirectory}\\ProxyList.json";
         private readonly string PATHURLS = $"{Environment.CurrentDirectory}\\Urls.json";
 
-
+        public string ConfigName { get; set; }
+        public string ConfigIP { get; set; }
+        public string ConfigPort { get; set; }
         public AddNewProxy(MainWindow mainWindow)
         {
             InitializeComponent();
+            this.DataContext = this;
             fileIOService = new FileIOService(PATH, PATHURLS);
             LoadProxyListElements();
             LoadUrlListChips();
@@ -160,36 +165,64 @@ namespace AI_Client
         {
             try
             {
-                var proxySettings = new ProxySettings
+                if (!string.IsNullOrWhiteSpace((IProxyName.Text ?? "").ToString()) && !string.IsNullOrWhiteSpace((IProxyIP.Text ?? "").ToString()) && !string.IsNullOrWhiteSpace((IProxyPort.Text ?? "").ToString())) 
                 {
-                    ProxyName = IProxyName.Text,
-                    ProxyIP = IProxyIP.Text,
-                    ProxyPort = IProxyPort.Text,
-                    ProxyUsername = IProxyUsername.Text,
-                    ProxyPassword = IProxyPassword.Text,
-                    LastUsingProxy = false
-                };
+                    Click_Validate("ConfigName", IProxyName, false);
+                    Click_Validate("ConfigIP", IProxyIP, false);
+                    Click_Validate("ConfigPort", IProxyPort, false);
+                    var proxySettings = new ProxySettings
+                    {
+                        ProxyName = IProxyName.Text,
+                        ProxyIP = IProxyIP.Text,
+                        ProxyPort = IProxyPort.Text,
+                        ProxyUsername = IProxyUsername.Text,
+                        ProxyPassword = IProxyPassword.Text,
+                        LastUsingProxy = false
+                    };
 
-                var proxies = fileIOService.LoadProxyList();
-                if (proxies != null)
-                {
-                    proxies.Add(proxySettings);
-                    fileIOService.SaveProxyList(proxies);
-                }
-                else
-                {
-                    var newProxyList = new List<ProxySettings>
+                    var proxies = fileIOService.LoadProxyList();
+                    if (proxies != null)
+                    {
+                        proxies.Add(proxySettings);
+                        fileIOService.SaveProxyList(proxies);
+                    }
+                    else
+                    {
+                        var newProxyList = new List<ProxySettings>
                     {
                         proxySettings
                     };
-                    fileIOService.SaveProxyList(newProxyList);
+                        fileIOService.SaveProxyList(newProxyList);
+                    }
+                    LoadProxyListElements();
                 }
-                LoadProxyListElements();
+                else
+                {
+                    Click_Validate("ConfigName", IProxyName, true);
+                    Click_Validate("ConfigIP", IProxyIP, true);
+                    Click_Validate("ConfigPort", IProxyPort, true);
+                    MessageBox.Show("Fill in the required fields");
+                }
+                
             }
             catch (Exception ex)
             {
+                
                 MessageBox.Show("Error adding proxy: " + ex.Message);
             }
+        }
+        private void Click_Validate(string FieldName, TextBox Parent, bool state)
+        {
+            NotEmptyValidationRule notEmptyRule = new NotEmptyValidationRule();
+
+            notEmptyRule.ValidatesOnTargetUpdated = state; 
+
+            Binding binding = new Binding(FieldName);
+            binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            binding.ValidationRules.Add(notEmptyRule);
+
+            Parent.SetBinding(TextBox.TextProperty, binding);
+            
         }
 
         private void CloseSettingButton_Click(object sender, RoutedEventArgs e)
