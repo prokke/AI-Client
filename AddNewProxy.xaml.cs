@@ -213,12 +213,15 @@ namespace AI_Client
         }
         private void Click_Validate(string FieldName, TextBox Parent, bool state)
         {
-            NotEmptyValidationRule notEmptyRule = new NotEmptyValidationRule();
+            NotEmptyValidationRule notEmptyRule = new NotEmptyValidationRule
+            {
+                ValidatesOnTargetUpdated = state
+            };
 
-            notEmptyRule.ValidatesOnTargetUpdated = state; 
-
-            Binding binding = new Binding(FieldName);
-            binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            Binding binding = new Binding(FieldName)
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
             binding.ValidationRules.Add(notEmptyRule);
 
             Parent.SetBinding(TextBox.TextProperty, binding);

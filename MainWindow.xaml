@@ -71,12 +71,20 @@
                 </ListBox>
                 <Separator/>
                 <!--<Button x:Name="testproxy" Click="Testproxy_Click" Content="Connect" />-->
-                <Label Content="Proxy name:" VerticalAlignment="Center"/>
-                <TextBlock x:Name="CurentProxyName" VerticalAlignment="Center" Text="proxy123"/>
-                <Separator/>
+                    
                 <Button x:Name="settings" Click="Settings_Click" Content="Settings"/>
                 <Separator/>
+
+
+                <Label Content="Direct connect" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <ToggleButton HorizontalAlignment="Center" x:Name="ProxyToggleButton" Unchecked="ProxyToggleButton_Unchecked" Checked="ProxyToggleButton_Checked"/>
+                <Separator/>
+
+                <Label Content="Proxy name:" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Row="1" x:Name="CurentProxyName" VerticalAlignment="Center" Text="NONE" HorizontalAlignment="Center"/>
+
             </ToolBar>
+            
         </ToolBarTray>
 
 

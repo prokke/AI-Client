@@ -183,7 +183,9 @@ namespace AI_Client
             }
             else
             {
-                MessageBox.Show("No proxy settings loaded.");
+                Direct_Connect();
+
+                MessageBox.Show("No proxy settings loaded, using a direct connection");
             }
         }
         //private void Testproxy_Click(object sender, RoutedEventArgs e)
@@ -266,9 +268,13 @@ namespace AI_Client
                         {
                             //Name = url.NewUrlName,
                             DataContext = url.NewUrl,
+
+
+
                             Content = new TextBlock
                             {
-                                Margin = new Thickness(5, 0, 0, 0),
+                                Margin = new Thickness(7, 0, 7, 0),
+                                Padding = new Thickness(0),
                                 VerticalAlignment = VerticalAlignment.Center,
                                 
                                 Text = url.NewUrlName,
@@ -291,6 +297,39 @@ namespace AI_Client
                     MessageBox.Show(ex.Message);
                 }
             }
+        }
+
+        private void Direct_Click(object sender, RoutedEventArgs e)
+        {
+            Direct_Connect();
+        }
+        private void Direct_Connect()
+        {
+            CurentProxyName.Text = proxySettings.ProxyName.ToString();
+            Cef.UIThreadTaskFactory.StartNew(delegate
+            {
+
+                var rc = chromeBrowser.GetBrowser().GetHost().RequestContext;
+                var dict = new Dictionary<string, object>
+                    {
+                        { "mode", "direct" },
+                    };
+                bool success = rc.SetPreference("proxy", dict, out string error);
+            });
+            chromeBrowser?.Reload();
+            CurentProxyName.Text = "NONE";
+        }
+
+        private void ProxyToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            Direct_Connect();
+
+        }
+
+        private void ProxyToggleButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ProxyConnect();
+
         }
     }
 }
