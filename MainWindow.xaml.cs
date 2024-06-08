@@ -33,7 +33,8 @@ namespace AI_Client
             proxySettings = LoadFile();
             var NewUrlList = fileIOService.LoadUrlList();
             LoadUrlListElements();
-            if (NewUrlList.Count > 0)
+            
+            if (NewUrlList?.Count > 0)
             {
                 LoadUrl(NewUrlList[0].NewUrl.ToString()); // Получение первого элемента по индексу 0
                                         // ... используйте firstUrl
@@ -305,7 +306,10 @@ namespace AI_Client
         }
         private void Direct_Connect()
         {
-            CurentProxyName.Text = proxySettings.ProxyName.ToString();
+            if (proxySettings != null)
+            {
+                CurentProxyName.Text = proxySettings.ProxyName.ToString();
+            }
             Cef.UIThreadTaskFactory.StartNew(delegate
             {
 
@@ -317,6 +321,7 @@ namespace AI_Client
                 bool success = rc.SetPreference("proxy", dict, out string error);
             });
             chromeBrowser?.Reload();
+            ProxyToggleButton.IsChecked = true;
             CurentProxyName.Text = "NONE";
         }
 
