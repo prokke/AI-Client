@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using WpfApp2;
+using MaterialDesignThemes;
 
 
 namespace AI_Client
@@ -20,7 +22,8 @@ namespace AI_Client
         private FileIOService fileIOService;
 
         private readonly string PATH = $"{Environment.CurrentDirectory}\\ProxyList.json";
-        readonly Urls urls = new Urls();
+        private readonly string PATHURLS = $"{Environment.CurrentDirectory}\\Urls.json";
+        //readonly Urls urls = new Urls();
 
         public MainWindow()
         {
@@ -28,12 +31,24 @@ namespace AI_Client
             InitializeChromium();
             addNewProxy = new AddNewProxy(this);
             proxySettings = LoadFile();
-            LoadUrl(urls._ipUrl);
+            var NewUrlList = fileIOService.LoadUrlList();
+            LoadUrlListElements();
+            
+            if (NewUrlList?.Count > 0)
+            {
+                LoadUrl(NewUrlList[0].NewUrl.ToString()); // Получение первого элемента по индексу 0
+                                        // ... используйте firstUrl
+            }
+            else
+            {
+                // Список пуст, обработайте ситуацию
+            }
+            //LoadUrl(urls._ipUrl);
         }
 
         private ProxySettings LoadFile()
         {
-            fileIOService = new FileIOService(PATH);
+            fileIOService = new FileIOService(PATH, PATHURLS);
             var proxies = fileIOService.LoadProxyList();
             if (proxies != null)
             {
@@ -59,7 +74,7 @@ namespace AI_Client
 
         public void LoadSettingsByName(string name)
         {
-            fileIOService = new FileIOService(PATH);
+            fileIOService = new FileIOService(PATH, PATHURLS);
             var proxies = fileIOService.LoadProxyList();
             if (proxies != null)
             {
@@ -134,25 +149,9 @@ namespace AI_Client
         {
 
             ListBoxItem selectedItem = (ListBoxItem)sender;
-            string caseValue = selectedItem.Name.ToString();
+            string caseValue = selectedItem.DataContext.ToString();
 
-            switch (caseValue)
-            {
-                case "gpt":
-                    LoadUrl(urls._gptUrl);
-                    break;
-                case "claude":
-                    LoadUrl(urls._claudeUrl);
-                    break;
-                case "gemini":
-                    LoadUrl(urls._geminiUrl);
-                    break;
-                case "ip":
-                    LoadUrl(urls._ipUrl);
-                    break;
-                default:
-                    break;
-            }
+            LoadUrl(caseValue);
         }
         protected override void OnClosed(EventArgs e)
         {
@@ -185,7 +184,9 @@ namespace AI_Client
             }
             else
             {
-                MessageBox.Show("No proxy settings loaded.");
+                Direct_Connect();
+
+                MessageBox.Show("No proxy settings loaded, using a direct connection");
             }
         }
         //private void Testproxy_Click(object sender, RoutedEventArgs e)
@@ -251,6 +252,89 @@ namespace AI_Client
             {
                 this.BorderThickness = new System.Windows.Thickness(0);
             }
+        }
+        public void LoadUrlListElements()
+        {
+            var urls = fileIOService.LoadUrlList();
+            if (urls != null)
+            {
+                ListBoxUrls.Items.Clear();
+
+                try
+                {
+
+                    foreach (var url in urls)
+                    {
+                        ListBoxItem listBoxItem = new ListBoxItem
+                        {
+                            //Name = url.NewUrlName,
+                            DataContext = url.NewUrl,
+
+
+
+                            Content = new TextBlock
+                            {
+                                Margin = new Thickness(7, 0, 7, 0),
+                                Padding = new Thickness(0),
+                                VerticalAlignment = VerticalAlignment.Center,
+                                
+                                Text = url.NewUrlName,
+                                Style = FindResource("MaterialDesignTextBlock") as Style,
+                                FontSize = 16,
+                                FontWeight = FontWeights.Medium,
+                            }
+                           
+                        };
+                        
+                        listBoxItem.Selected += AI_Selected;
+                        listBoxItem.Style = FindResource("MaterialDesignListBoxItem") as Style;
+                        ListBoxUrls.Items.Add(listBoxItem);
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void Direct_Click(object sender, RoutedEventArgs e)
+        {
+            Direct_Connect();
+        }
+        private void Direct_Connect()
+        {
+            if (proxySettings != null)
+            {
+                CurentProxyName.Text = proxySettings.ProxyName.ToString();
+            }
+            Cef.UIThreadTaskFactory.StartNew(delegate
+            {
+
+                var rc = chromeBrowser.GetBrowser().GetHost().RequestContext;
+                var dict = new Dictionary<string, object>
+                    {
+                        { "mode", "direct" },
+                    };
+                bool success = rc.SetPreference("proxy", dict, out string error);
+            });
+            chromeBrowser?.Reload();
+            ProxyToggleButton.IsChecked = true;
+            CurentProxyName.Text = "NONE";
+        }
+
+        private void ProxyToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            Direct_Connect();
+
+        }
+
+        private void ProxyToggleButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ProxyConnect();
+
         }
     }
 }

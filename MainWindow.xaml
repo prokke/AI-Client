@@ -42,41 +42,49 @@
             <ToolBar Height="60" Style="{DynamicResource MaterialDesignToolBar}">
                 <Button x:Name="Reload_Page" Content="{materialDesign:PackIcon Kind=Reload}" Click="ReloadButton_Click" />
                 <Separator/>
-                <ListBox SelectedItem="1" SelectedIndex="3">
-                    <ListBoxItem x:Name="gpt" Selected="AI_Selected">
+                <ListBox SelectedItem="1" SelectedIndex="0" x:Name="ListBoxUrls">
+                    <!--<ListBoxItem x:Name="gpt" Selected="AI_Selected" DataContext="https://chat.openai.com/">
                         <StackPanel Orientation="Horizontal">
                             <Image Width="30" Source="/Images/gpt.ico"/>
                             <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="GPT"/>
                         </StackPanel>
                     </ListBoxItem>
-                    <ListBoxItem x:Name="claude" Selected="AI_Selected">
+                    <ListBoxItem x:Name="claude" Selected="AI_Selected" DataContext="https://claude.ai/">
                         <StackPanel Orientation="Horizontal">
                             <Image Width="30" Source="/Images/claude.ico"/>
                             <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="Claude AI"/>
                         </StackPanel>
                     </ListBoxItem>
-                    <ListBoxItem x:Name="gemini" Selected="AI_Selected">
+                    <ListBoxItem x:Name="gemini" Selected="AI_Selected" DataContext="https://gemini.google.com/app">
                         <StackPanel Orientation="Horizontal">
                             <Image Width="30" Source="/Images/gemini.ico"/>
                             <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="Gemini"/>
                         </StackPanel>
                     </ListBoxItem>
-                    <ListBoxItem x:Name="ip" Selected="AI_Selected">
+                    <ListBoxItem x:Name="ip" Selected="AI_Selected" DataContext="https://whatismyipaddress.com/">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Ip" VerticalAlignment="Center" Width="30" Height="30"/>
                             <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="IP"/>
                         </StackPanel>
-                    </ListBoxItem>
+                    </ListBoxItem>-->
 
                 </ListBox>
                 <Separator/>
                 <!--<Button x:Name="testproxy" Click="Testproxy_Click" Content="Connect" />-->
-                <Label Content="Proxy name:" VerticalAlignment="Center"/>
-                <TextBlock x:Name="CurentProxyName" VerticalAlignment="Center" Text="None"/>
-                <Separator/>
+                    
                 <Button x:Name="settings" Click="Settings_Click" Content="Settings"/>
                 <Separator/>
+
+
+                <Label Content="Direct connect" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <ToggleButton HorizontalAlignment="Center" x:Name="ProxyToggleButton" Unchecked="ProxyToggleButton_Unchecked" Checked="ProxyToggleButton_Checked"/>
+                <Separator/>
+
+                <Label Content="Proxy name:" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Row="1" x:Name="CurentProxyName" VerticalAlignment="Center" Text="NONE" HorizontalAlignment="Center"/>
+
             </ToolBar>
+            
         </ToolBarTray>
 
 
