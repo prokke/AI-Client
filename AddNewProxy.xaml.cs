@@ -107,7 +107,6 @@ namespace AI_Client
         {
             Chip chipToDelete = (Chip)sender;
 
-            // Logic to remove the chip from the StackPanel
             StackPanel_UrlList.Children.Remove(chipToDelete);
             fileIOService.DeleteUrl(chipToDelete.Content.ToString());
             LoadUrlListChips();
@@ -124,7 +123,6 @@ namespace AI_Client
         {
             Chip chipToDelete = (Chip)sender;
 
-            // Logic to remove the chip from the StackPanel
             StackPanel_ProxyList.Children.Remove(chipToDelete);
             fileIOService.DeleteProxy(chipToDelete.Content.ToString());
         }

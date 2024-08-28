@@ -37,11 +37,10 @@ namespace AI_Client
             if (NewUrlList?.Count > 0)
             {
                 LoadUrl(NewUrlList[0].NewUrl.ToString()); // Получение первого элемента по индексу 0
-                                        // ... используйте firstUrl
             }
             else
             {
-                // Список пуст, обработайте ситуацию
+
             }
             //LoadUrl(urls._ipUrl);
         }
